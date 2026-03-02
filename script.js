@@ -66,46 +66,97 @@ break;
 },1000);
 }
 
+
+let currentMonth=new Date().getMonth()+1;
+let currentYear=new Date().getFullYear();
+
 async function loadCalendar(){
 
-const today=new Date();
-const month=today.getMonth()+1;
-const year=today.getFullYear();
-
 const res=await fetch(
-`https://api.aladhan.com/v1/calendarByCity?city=Kuala Lumpur&country=Malaysia&method=3&month=${month}&year=${year}`
+`https://api.aladhan.com/v1/calendarByCity?city=Kuala Lumpur&country=Malaysia&method=3&month=${currentMonth}&year=${currentYear}`
 );
 
 const data=await res.json();
 
-const grid=document.getElementById("calendarGrid");
+calendarGrid.innerHTML="";
 
-grid.innerHTML="";
+monthTitle.innerText=
+new Date(currentYear,currentMonth-1)
+.toLocaleString("default",{month:"long",year:"numeric"});
 
-document.getElementById("monthTitle")
-.innerText=today.toLocaleString("default",
-{month:"long",year:"numeric"});
-
-const todayDate=today.getDate();
+const today=new Date().getDate();
 
 data.data.forEach(day=>{
 
-const d=document.createElement("div");
-d.className="calendar-day";
+let div=document.createElement("div");
+div.className="calendar-day";
 
-if(parseInt(day.date.gregorian.day)===todayDate){
-d.classList.add("today");
+if(parseInt(day.date.gregorian.day)===today){
+div.classList.add("today");
 }
 
-d.innerHTML=`
+if(day.date.hijri.month.en==="Ramadan"){
+div.classList.add("ramadan");
+}
+
+div.innerHTML=`
 <b>${day.date.gregorian.day}</b>
 <span>${day.date.hijri.day}</span>
 `;
 
-grid.appendChild(d);
+div.onclick=()=>{
+showPrayerPopup(day);
+};
+
+calendarGrid.appendChild(div);
 
 });
 }
+
+function changeMonth(step){
+
+currentMonth+=step;
+
+if(currentMonth>12){
+currentMonth=1;
+currentYear++;
+}
+
+if(currentMonth<1){
+currentMonth=12;
+currentYear--;
+}
+
+loadCalendar();
+}
+
+function showPrayerPopup(day){
+
+let popup=document.getElementById("popup");
+
+if(!popup){
+popup=document.createElement("div");
+popup.id="popup";
+popup.className="popup";
+document.body.appendChild(popup);
+}
+
+popup.innerHTML=`
+<b>${day.date.gregorian.date}</b><br>
+Fajr: ${day.timings.Fajr}<br>
+Dhuhr: ${day.timings.Dhuhr}<br>
+Asr: ${day.timings.Asr}<br>
+Maghrib: ${day.timings.Maghrib}<br>
+Isha: ${day.timings.Isha}
+`;
+
+popup.style.display="block";
+
+setTimeout(()=>{
+popup.style.display="none";
+},4000);
+}
+
 
 function getQibla(){
 navigator.geolocation.getCurrentPosition(pos=>{
