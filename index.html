@@ -8,33 +8,20 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0f2027">
 </head>
+
+
 <body>
 
 <div id="splash">
 <h1>🕌 Barakah Prayer</h1>
-<p>Loading...</p>
 </div>
 
-<div id="sidebar">
-<a onclick="showPage('home')">Home</a>
-<a onclick="showPage('qibla')">Qibla</a>
-<a onclick="showPage('calendar')">Calendar</a>
-<a onclick="showPage('about')">About</a>
-</div>
+<div class="container">
 
-<div class="app">
+<!-- HOME -->
+<section id="home" class="screen active">
 
-<header>
-<button onclick="toggleMenu()">☰</button>
 <h2>Barakah Prayer MY</h2>
-<button onclick="toggleTheme()">🌙</button>
-</header>
-
-<section id="home" class="page active">
-<div class="hero">
-<div class="overlay">
-
-<h1 class="app-title">🕌 Barakah Prayer MY</h1>
 
 <p id="gregorianDate"></p>
 <p id="hijriDate"></p>
@@ -49,31 +36,39 @@
 <div class="card" id="IshaCard">Isha <b id="isha"></b></div>
 </div>
 
-</div>
-</div>
 </section>
 
-<section id="qibla" class="page">
-<h3>Qibla Direction</h3>
-<div id="compass">🧭</div>
+<!-- QIBLA -->
+<section id="qibla" class="screen">
+<h2>Qibla</h2>
+<div id="needle"></div>
 <p id="qiblaAngle"></p>
 </section>
 
-<section id="calendar" class="page">
-<div class="calendar-top">
-<button onclick="changeMonth(-1)">◀</button>
+<!-- CALENDAR -->
+<section id="calendar" class="screen">
 <h2 id="monthTitle"></h2>
-<button onclick="changeMonth(1)">▶</button>
-</div>
-<div id="calendarGrid" class="calendar-grid"></div>
+<div id="calendarGrid"></div>
 </section>
 
-<section id="about" class="page">
-<p>Developed by Phyo Wai Tun</p>
+<!-- SETTINGS -->
+<section id="settings" class="screen">
+<h3>Settings</h3>
+<button onclick="toggleTheme()">Dark Mode</button>
 </section>
 
 </div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+<button onclick="showScreen('home')">🏠</button>
+<button onclick="showScreen('qibla')">🧭</button>
+<button onclick="showScreen('calendar')">📅</button>
+<button onclick="showScreen('settings')">⚙</button>
+</nav>
 
 <script src="script.js"></script>
 </body>
+
+  
 </html>
