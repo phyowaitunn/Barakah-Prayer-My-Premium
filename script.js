@@ -67,17 +67,44 @@ break;
 }
 
 async function loadCalendar(){
+
 const today=new Date();
 const month=today.getMonth()+1;
 const year=today.getFullYear();
-const res=await fetch(`https://api.aladhan.com/v1/calendarByCity?city=Kuala Lumpur&country=Malaysia&method=3&month=${month}&year=${year}`);
+
+const res=await fetch(
+`https://api.aladhan.com/v1/calendarByCity?city=Kuala Lumpur&country=Malaysia&method=3&month=${month}&year=${year}`
+);
+
 const data=await res.json();
-let html="<table>";
-data.data.forEach(d=>{
-html+=`<tr><td>${d.date.gregorian.date}</td><td>${d.date.hijri.date}</td></tr>`;
+
+const grid=document.getElementById("calendarGrid");
+
+grid.innerHTML="";
+
+document.getElementById("monthTitle")
+.innerText=today.toLocaleString("default",
+{month:"long",year:"numeric"});
+
+const todayDate=today.getDate();
+
+data.data.forEach(day=>{
+
+const d=document.createElement("div");
+d.className="calendar-day";
+
+if(parseInt(day.date.gregorian.day)===todayDate){
+d.classList.add("today");
+}
+
+d.innerHTML=`
+<b>${day.date.gregorian.day}</b>
+<span>${day.date.hijri.day}</span>
+`;
+
+grid.appendChild(d);
+
 });
-html+="</table>";
-calendarTable.innerHTML=html;
 }
 
 function getQibla(){
