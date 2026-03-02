@@ -159,26 +159,31 @@ popup.style.display="none";
 
 
 function getQibla(){
+
 navigator.geolocation.getCurrentPosition(pos=>{
+
 let lat=pos.coords.latitude*Math.PI/180;
 let lon=pos.coords.longitude*Math.PI/180;
+
 let kaabaLat=21.4225*Math.PI/180;
 let kaabaLon=39.8262*Math.PI/180;
+
 let angle=Math.atan2(
 Math.sin(kaabaLon-lon),
-Math.cos(lat)*Math.tan(kaabaLat)-Math.sin(lat)*Math.cos(kaabaLon-lon)
+Math.cos(lat)*Math.tan(kaabaLat)
+-Math.sin(lat)*Math.cos(kaabaLon-lon)
 );
+
 angle=angle*180/Math.PI;
-compass.style.transform=`rotate(${angle}deg)`;
-qiblaAngle.innerText="Direction "+angle.toFixed(2)+"°";
+
+needle.style.transform=
+`rotate(${angle}deg)`;
+
+qiblaAngle.innerText=
+"Direction "+angle.toFixed(1)+"°";
+
 });
 }
-
-if("serviceWorker" in navigator){
-navigator.serviceWorker.register("service-worker.js");
-}
-
-loadPrayer();
 
 
 function showScreen(id){
