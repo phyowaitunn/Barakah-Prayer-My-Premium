@@ -112,3 +112,43 @@ transition:1s;
 .dark{
 background:#121212;
 }
+
+/* ===== CALENDAR PREMIUM ===== */
+
+.calendar-header{
+text-align:center;
+margin-bottom:15px;
+font-size:20px;
+font-weight:bold;
+}
+
+.calendar-grid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:8px;
+}
+
+.calendar-day{
+padding:10px;
+border-radius:12px;
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(10px);
+text-align:center;
+font-size:12px;
+transition:.3s;
+}
+
+.calendar-day:hover{
+transform:scale(1.05);
+}
+
+.calendar-day b{
+display:block;
+font-size:15px;
+margin-bottom:4px;
+}
+
+.today{
+background:linear-gradient(135deg,#00c6ff,#0072ff);
+box-shadow:0 0 15px #00c6ff;
+}
